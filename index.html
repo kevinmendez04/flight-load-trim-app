@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Load &amp; Trim</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈</text></svg>"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <!-- Header -->
+      <header class="hdr">
+        <div class="hdr-left">
+          <div class="plane-icon">✈</div>
+          <div>
+            <div class="app-name">Flight Load &amp; Trim</div>
+            <div class="app-sub">WEIGHT &amp; BALANCE CALCULATOR</div>
+          </div>
+        </div>
+        <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+      </header>
+
+      <!-- Inputs -->
+      <div class="divider">
+        <span class="div-lbl">PARAMETERS</span>
+        <span class="div-line"></span>
+      </div>
+
+      <div class="card">
+        <div class="sel-row">
+          <select id="aircraft-select">
+            <option value="">— select aircraft registration —</option>
+            <optgroup label="P-MENTOR">
+              <option value="VT-RFH">VT-RFH</option>
+              <option value="VT-RFI">VT-RFI</option>
+              <option value="VT-RFJ">VT-RFJ</option>
+              <option value="VT-RFK">VT-RFK</option>
+              <option value="VT-RFL">VT-RFL</option>
+              <option value="VT-RFN">VT-RFN</option>
+              <option value="VT-RFO">VT-RFO</option>
+              <option value="VT-RFP">VT-RFP</option>
+              <option value="VT-RFR">VT-RFR</option>
+              <option value="VT-RFS">VT-RFS</option>
+            </optgroup>
+            <optgroup label="P2008JC">
+              <option value="VT-RIB">VT-RIB</option>
+              <option value="VT-RBD">VT-RBD</option>
+              <option value="VT-RBL">VT-RBL</option>
+              <option value="VT-RBX">VT-RBX</option>
+              <option value="VT-RFG">VT-RFG</option>
+              <option value="VT-RBV">VT-RBV</option>
+              <option value="VT-RBW">VT-RBW</option>
+              <option value="VT-RFE">VT-RFE</option>
+              <option value="VT-RFF">VT-RFF</option>
+            </optgroup>
+            <optgroup label="CESSNA">
+              <option value="VT-CAQ">VT-CAQ</option>
+              <option value="VT-CAY">VT-CAY</option>
+            </optgroup>
+            <optgroup label="P2010">
+              <option value="VT-RFT">VT-RFT</option>
+              <option value="VT-RFU">VT-RFU</option>
+            </optgroup>
+            <optgroup label="P2006T">
+              <option value="VT-RFW">VT-RFW</option>
+              <option value="VT-RIC">VT-RIC</option>
+            </optgroup>
+          </select>
+          <span class="sel-arrow">▾</span>
+        </div>
+
+        <div class="fields">
+          <div class="field">
+            <div class="field-label">
+              <span class="flbl-accent">›</span> PILOT WEIGHT
+            </div>
+            <div class="inp-wrap">
+              <input type="number" id="pilot-weight" placeholder="0" min="0" />
+              <span class="inp-unit">KG</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <span class="flbl-accent">›</span> COPILOT WEIGHT
+            </div>
+            <div class="inp-wrap">
+              <input
+                type="number"
+                id="copilot-weight"
+                placeholder="0"
+                min="0"
+              />
+              <span class="inp-unit">KG</span>
+            </div>
+          </div>
+
+          <div class="field" id="fuel-field">
+            <div class="field-label">
+              <span class="flbl-accent">›</span>
+              <span id="fuel-label-text">FUEL</span>
+            </div>
+            <div class="inp-wrap">
+              <input type="number" id="fuel-weight" placeholder="0" min="0" />
+              <span class="inp-unit">LTR</span>
+            </div>
+          </div>
+
+          <div class="field" id="landing-fuel-field" style="display: none">
+            <div class="field-label">
+              <span class="flbl-accent">›</span> LANDING FUEL
+            </div>
+            <div class="inp-wrap">
+              <input type="number" id="landing-fuel" placeholder="0" min="0" />
+              <span class="inp-unit">LTR</span>
+            </div>
+          </div>
+
+          <div class="field full" id="baggage-field" style="display: none">
+            <div class="field-label">
+              <span class="flbl-accent">›</span> BAGGAGE
+            </div>
+            <div class="inp-wrap">
+              <input type="number" id="baggage-weight" placeholder="20" />
+              <span class="inp-unit">KG</span>
+            </div>
+          </div>
+        </div>
+
+        <button id="calculate-button" class="calc-btn">
+          Ready for Departure <span class="btn-arrow">→</span>
+        </button>
+
+        <div id="error-msg" class="error-msg"></div>
+      </div>
+
+      <!-- Output -->
+      <div class="divider">
+        <span class="div-lbl">OUTPUT</span>
+        <span class="div-line"></span>
+      </div>
+
+      <div class="out-card">
+        <div class="out-head">
+          <span class="out-tag">W &amp; B RESULTS</span>
+          <span class="out-ac-label" id="ac-label">NO AIRCRAFT SELECTED</span>
+        </div>
+
+        <div id="out-empty" class="out-empty">
+          <span class="empty-ico">◌</span>
+          Select an aircraft and enter values above
+        </div>
+
+        <div id="tbl-wrap" class="tbl-wrap" style="display: none">
+          <table id="results-table">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Weight (kg)</th>
+                <th>Arm (m)</th>
+                <th>Moment</th>
+              </tr>
+            </thead>
+            <tbody id="results-body"></tbody>
+            <tfoot id="results-foot"></tfoot>
+          </table>
+          <div class="cg-bar" id="cg-bar"></div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <span class="footer-text">Created by</span>
+        <a
+          class="footer-link footer-name"
+          href="https://www.instagram.com/_kevin_mendez__/"
+          target="_blank"
+          rel="noopener"
+          >Kevin Mendez</a
+        >
+        <span class="footer-sep">·</span>
+        <a class="footer-link" href="#" id="contact-btn">Contact</a>
+      </footer>
+    </div>
+
+    <!-- Contact modal -->
+    <div class="modal-overlay" id="contact-modal">
+      <div class="modal-box">
+        <button class="modal-close" id="modal-close">✕</button>
+        <div class="modal-title">CONTACT</div>
+        <div class="modal-email-row">
+          <span class="modal-email-icon">✉</span>
+          <a class="modal-email" href="mailto:captainkevinmendez@gmail.com"
+            >captainkevinmendez@gmail.com</a
+          >
+          <button class="copy-btn" id="copy-btn">COPY</button>
+        </div>
+        <p class="modal-note">
+          Feel free to reach out for any questions or feedback about the
+          calculator.
+        </p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
