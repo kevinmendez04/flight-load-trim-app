@@ -311,7 +311,7 @@ function handleP2010(ac) {
     const copilot   = getVal(elCopilot);
     const toFuelL   = getVal(elFuel);
     const ldgFuelL  = getVal(elLdgFuel);
-    const baggage   = elBaggage.value !== '' ? parseFloat(elBaggage.value) : 30;
+    const baggage = (elBaggage.value !== '' && parseFloat(elBaggage.value) >= 20) ? parseFloat(elBaggage.value) : 20;
 
     const acMoment   = ac.weight * ac.arm;
     const pilotMom   = pilot * 0.29;
